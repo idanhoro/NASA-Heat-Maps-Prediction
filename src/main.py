@@ -1,22 +1,18 @@
 import os
 
-import numpy as np
 import time
-from datetime import datetime
 
 from src.crawler import get_frame_urls
 from src.df_creator import create_df
-from src.environment import init, load_config
+from src.environment import verify_required_files_dirs
 
 if __name__ == "__main__":
-    init()
+    verify_required_files_dirs()
 
     start_time = time.time()
     print("Start at: {}".format(start_time))
 
-    csv_file = ".{0}CSVs{0}combined-{1}.csv".format(
-        os.sep, datetime.now().replace(microsecond=0).isoformat().replace(":", "_")
-    )
+    csv_file = ".{0}CSVs{0}final_df.csv".format(os.sep)
     create_df(get_frame_urls()).to_csv(csv_file, index=False)
 
     print("Finished at: {}".format(time.time()))

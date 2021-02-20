@@ -1,5 +1,4 @@
 import os
-from pathlib import Path
 
 import toml
 
@@ -33,26 +32,7 @@ def verify_required_files_dirs():
     check_file("assets{}outliers_mask.npy".format(os.sep))
     check_file("env.toml")
     check_dir("CSVs", False)
-
-
-def remove_csv_files():
-    if CONFIG["general"]["delete_combined_csv_files"]:
-        for csv in Path("CSVs").glob("combined-*.csv"):
-            print("Deleting {} according to the configuration file.".format(csv.name))
-            csv.unlink()
-
-    if CONFIG["general"]["delete_category_csv_files"]:
-        for csv in Path("CSVs").glob("*.csv"):
-            if not csv.name.startswith("combined-"):
-                print(
-                    "Deleting {} according to the configuration file.".format(csv.name)
-                )
-                csv.unlink()
-
-
-def init():
-    verify_required_files_dirs()
-    remove_csv_files()
+    check_dir("Visualization", False)
 
 
 def load_config(filename: str = ".{}env.toml".format(os.sep)):
