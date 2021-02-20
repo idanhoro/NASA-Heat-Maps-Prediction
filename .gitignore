@@ -1,0 +1,5 @@
+/.idea/
+/CSVs/
+/.mypy_cache/
+/src/__pycache__
+/venv/

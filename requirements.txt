@@ -1,0 +1,10 @@
+pandas~=1.2.0
+matplotlib~=3.3.3
+requests~=2.25.1
+numpy~=1.19.5
+bs4~=0.0.1
+beautifulsoup4~=4.9.3
+Pillow~=8.1.0
+lxml~=4.6.2
+scipy~=1.6.0
+toml~=0.10.2
