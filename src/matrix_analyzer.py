@@ -9,26 +9,16 @@ from scipy.spatial import distance_matrix
 from src.crawler import image_url_to_mat, get_by_url
 
 
-def map_analyzer(
-    map_url: str, clean_img_arr: np.ndarray, scale_arr: np.ndarray
-) -> np.ndarray:
+def map_analyzer(map_url: str, clean_img_arr: np.ndarray, scale_arr: np.ndarray) -> np.ndarray:
     img_arr: np.ndarray = image_url_to_mat(map_url)
-    difference_array: np.ndarray = np.sqrt(
-        np.sum((img_arr - clean_img_arr) ** 2, axis=2)
-    )
+    difference_array: np.ndarray = np.sqrt(np.sum((img_arr - clean_img_arr) ** 2, axis=2))
     mask_array: np.ndarray = difference_array != 0
     img_arr_subset: np.ndarray = img_arr[mask_array]
 
-    dist_matrix: np.ndarray = np.c_[
-        difference_array[mask_array], distance_matrix(img_arr_subset, scale_arr)
-    ]
+    dist_matrix: np.ndarray = np.c_[difference_array[mask_array], distance_matrix(img_arr_subset, scale_arr)]
 
-    min_dist_indices: np.ndarray = (
-        dist_matrix.argmin(axis=-1) - 1
-    )  # Shift the values (scale indices) by -1
-    scale_pixels_final: np.ndarray = np.full(
-        shape=(350, 700), fill_value=-1
-    )  # (350,700) index matrix
+    min_dist_indices: np.ndarray = (dist_matrix.argmin(axis=-1) - 1)  # Shift the values (scale indices) by -1
+    scale_pixels_final: np.ndarray = np.full(shape=(350, 700), fill_value=-1)  # (350,700) index matrix
     scale_pixels_final[mask_array] = min_dist_indices
     scale_pixels_final_reshaped: np.ndarray = scale_pixels_final.reshape(-1)
 
@@ -39,9 +29,7 @@ def color_mapper(scale_url: str) -> np.ndarray:
     print("Scale URL: ", scale_url)
 
     scale_img = Image.open(BytesIO(get_by_url(scale_url).content)).convert("RGB")
-    color_strip = np.asarray(scale_img)[
-        int(scale_img.size[1] / 2) - 1
-    ]  # Take only the middle strip -- height / 2
+    color_strip = np.asarray(scale_img)[int(scale_img.size[1] / 2) - 1]  # Take only the middle strip -- height / 2
 
     (start, end) = (scale_searcher(color_strip), scale_searcher(color_strip[::-1]))
 
@@ -86,6 +74,6 @@ def create_outliers_mask(categories_by_month_dict) -> np.ndarray:
 
     # If 0 + 1 + x == 0 => x == -1 --> x is an outlier.
     outliers_mask = (zeros != 0).reshape(350, 700)
-    np.save(".{0}assets{0}outliers_mask.npy".format(os.sep), outliers_mask)
+    np.save(os.path.join("assets", "outliers_mask.npy"), outliers_mask)
 
     return outliers_mask

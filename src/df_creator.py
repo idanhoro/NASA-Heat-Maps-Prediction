@@ -28,8 +28,7 @@ def merge_final_df(
 
 def create_df(maps: dict[str, tuple[str, np.ndarray]]) -> pd.DataFrame:
     clean_img_arr: np.ndarray = np.asarray(
-        Image.open(".{0}assets{0}clean_map.jpeg".format(os.sep)).convert("RGB")
-    )
+        Image.open(os.path.join("assets", "clean_map.jpeg")).convert("RGB"))
     """
     Example to the structure of the `maps` variable:
     maps = {
@@ -119,6 +118,4 @@ def create_monthly_df(
     )
 
     # Clean the outliers - white background and sea.
-    return monthly_df.loc[
-        np.load(".{0}assets{0}outliers_mask.npy".format(os.sep)).reshape(-1)
-    ]
+    return monthly_df.loc[np.load(os.path.join("assets", "outliers_mask.npy")).reshape(-1)]

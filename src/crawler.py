@@ -43,12 +43,7 @@ def get_frame_urls() -> dict[str, tuple[str, np.ndarray]]:
 
         maps_player = html.find("div", class_="panel-slideshow panel-slideshow-primary")
         urls_arr = np.array(
-            [
-                img["src"]
-                for img in maps_player.find_all(
-                "img", class_="panel-slideshow-image", src=True
-            )
-            ]
+            [img["src"] for img in maps_player.find_all("img", class_="panel-slideshow-image", src=True)]
         )
         scale_url = "{}{}".format(
             BASE_URL,
@@ -67,22 +62,14 @@ def get_frame_urls() -> dict[str, tuple[str, np.ndarray]]:
 
 def get_by_url(url=BASE_URL, params=None) -> requests.Response:
     headers = {
-        "user-agent": "Mozilla/5.0 (X11; Linux x86_64; rv:83.0) Gecko/20100101 Firefox/83.0"
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36"
     }
     response = requests.get(url, headers=headers, params=params)
 
     if response.status_code != 200:
-        print(
-            "Could not reach: {} status code: {} html: {}".format(
-                response.url, response.status_code, response.text
-            )
-        )
+        print("Could not reach: {} status code: {} html: {}".format(response.url, response.status_code, response.text))
         sys.exit(1)
 
-    if MAX_CRAWL_SLEEP_TIME == 0:
-        return response
-
-    # Wait a random amount of time requests.
-    time.sleep(MAX_CRAWL_SLEEP_TIME - round(np.random.random(), 4))
+    time.sleep(MAX_CRAWL_SLEEP_TIME)
 
     return response

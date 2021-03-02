@@ -13,7 +13,7 @@ from sklearn.preprocessing import PolynomialFeatures
 from time import time
 
 
-def color_predict(df):
+def color_predict(df, year):
     x = df[df.columns[(df.columns == 'X') | (df.columns == 'Y') | (df.columns == 'Year') | (df.columns == 'Month') | (
             df.columns == 'Snow Cover Is Valuable')]]
     y = df['Snow Cover Color Index']

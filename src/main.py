@@ -12,7 +12,7 @@ if __name__ == "__main__":
     start_time = time.time()
     print("Start at: {}".format(start_time))
 
-    csv_file = ".{0}CSVs{0}final_df.csv".format(os.sep)
+    csv_file = os.path.join('CSVs', 'final_df.csv')
     create_df(get_frame_urls()).to_csv(csv_file, index=False)
 
     print("Finished at: {}".format(time.time()))
