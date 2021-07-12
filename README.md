@@ -4,7 +4,7 @@
 
 ### Description
 
-In our project we research the correlations between different weather conditions and try to predict future scenarios by
+In this project we research the correlations between different weather conditions and try to predict future scenarios by
 using image processing and traditional machine learning algorithms.
 
 ### Data Collection
